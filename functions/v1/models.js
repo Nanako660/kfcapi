@@ -3,14 +3,11 @@ export async function onRequestGet(context) {
     object: 'list',
     data: [
       { id: 'kfc-crazy-thursday', object: 'model', created: 1686935002, owned_by: 'kfc' },
-      { id: 'kfc-original-recipe', object: 'model', created: 1686935002, owned_by: 'kfc' },
-      { id: 'kfc-spicy-wings', object: 'model', created: 1686935002, owned_by: 'kfc' },
-      { id: 'kfc-bucket-meal', object: 'model', created: 1686935002, owned_by: 'kfc' },
     ],
   }), {
-    headers: { 
+    headers: {
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': '*' 
+      'Access-Control-Allow-Origin': '*',
     },
   });
 }

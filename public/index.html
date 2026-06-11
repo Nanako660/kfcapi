@@ -3,78 +3,550 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KFC Crazy Thursday API</title>
+  <title>疯狂星期四 · KFC Crazy Thursday API</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700;900&display=swap');
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #1a1a2e; color: #eee; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
-    .container { max-width: 700px; width: 100%; }
-    h1 { font-size: 2.5rem; text-align: center; margin-bottom: 10px; background: linear-gradient(135deg, #e4002b, #ffb81c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .subtitle { text-align: center; color: #888; margin-bottom: 40px; font-size: 1.1rem; }
-    .card { background: #16213e; border-radius: 12px; padding: 24px; margin-bottom: 20px; border: 1px solid #0f3460; }
-    .card h2 { color: #ffb81c; margin-bottom: 12px; font-size: 1.2rem; }
-    .card p { color: #aaa; line-height: 1.6; }
-    code { background: #0f3460; padding: 2px 8px; border-radius: 4px; font-family: 'Fira Code', monospace; font-size: 0.9rem; color: #e4002b; }
-    pre { background: #0f3460; padding: 16px; border-radius: 8px; overflow-x: auto; margin: 12px 0; font-size: 0.85rem; line-height: 1.5; }
-    pre code { background: none; padding: 0; color: #eee; }
-    .copy-btn { background: #e4002b; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; margin-top: 8px; }
-    .copy-btn:hover { background: #c5001f; }
-    .model-list { list-style: none; }
-    .model-list li { padding: 8px 0; border-bottom: 1px solid #0f3460; color: #ccc; }
-    .model-list li:last-child { border-bottom: none; }
-    .tag { display: inline-block; background: #e4002b; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; margin-left: 8px; }
+
+    :root {
+      --red: #E4002B;
+      --dark-red: #B8001F;
+      --gold: #FFB81C;
+      --cream: #FFF8E7;
+      --white: #FFFFFF;
+      --black: #1A1A1A;
+    }
+
+    body {
+      font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--cream);
+      color: var(--black);
+      min-height: 100vh;
+    }
+
+    /* ── 顶部导航条 ── */
+    .navbar {
+      background: var(--white);
+      border-bottom: 3px solid var(--red);
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .navbar .logo {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--red);
+      letter-spacing: -1px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .navbar .logo img { height: 32px; }
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+    .nav-links a {
+      color: #666;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 700;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--red); }
+
+    /* ── Hero 区域 ── */
+    .hero {
+      background: linear-gradient(135deg, var(--red) 0%, var(--dark-red) 40%, #8B0018 100%);
+      position: relative;
+      overflow: hidden;
+      padding: 60px 24px;
+      text-align: center;
+    }
+    /* 条纹背景 */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        -35deg,
+        transparent,
+        transparent 20px,
+        rgba(255,255,255,.04) 20px,
+        rgba(255,255,255,.04) 40px
+      );
+    }
+    .hero-content { position: relative; z-index: 1; }
+    .hero .tagline {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--dark-red);
+      font-weight: 900;
+      font-size: 0.8rem;
+      padding: 4px 16px;
+      border-radius: 100px;
+      letter-spacing: 2px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 12px;
+      text-shadow: 0 2px 8px rgba(0,0,0,.3);
+    }
+    .hero h1 .gold { color: var(--gold); }
+    .hero .sub {
+      color: rgba(255,255,255,.85);
+      font-size: 1.15rem;
+      margin-bottom: 32px;
+    }
+    .hero .bucket-emoji {
+      font-size: 5rem;
+      display: block;
+      margin: 12px auto;
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,.4));
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .hero-btn {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--dark-red);
+      font-weight: 900;
+      font-size: 1.1rem;
+      padding: 14px 40px;
+      border-radius: 100px;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(0,0,0,.25);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .hero-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,.35); }
+
+    /* ── 星期四倒计时条 ── */
+    .countdown-bar {
+      background: var(--black);
+      color: var(--gold);
+      text-align: center;
+      padding: 12px 24px;
+      font-weight: 900;
+      font-size: 1rem;
+      letter-spacing: 1px;
+    }
+    .countdown-bar .highlight {
+      color: var(--white);
+      background: var(--red);
+      padding: 2px 10px;
+      border-radius: 4px;
+      margin: 0 4px;
+    }
+
+    /* ── 主要内容 ── */
+    .main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 20px 60px;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .section-title h2 {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--red);
+    }
+    .section-title .line {
+      width: 60px;
+      height: 4px;
+      background: var(--gold);
+      margin: 12px auto;
+      border-radius: 2px;
+    }
+
+    /* ── 卡片布局 ── */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+    .card {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 2px 16px rgba(0,0,0,.06);
+      border: 1px solid #eee;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: 0 8px 28px rgba(0,0,0,.1); }
+    .card .icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+    .card h3 {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--dark-red);
+      margin-bottom: 8px;
+    }
+    .card p, .card ul { color: #666; line-height: 1.7; font-size: 0.95rem; }
+    .card ul { padding-left: 18px; }
+    .card ul li { margin-bottom: 4px; }
+
+    /* ── API 代码区域 ── */
+    .api-section {
+      background: var(--white);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: 0 2px 16px rgba(0,0,0,.06);
+      border: 1px solid #eee;
+      margin-bottom: 32px;
+    }
+    .api-section h3 {
+      font-size: 1.3rem;
+      font-weight: 900;
+      color: var(--dark-red);
+      margin-bottom: 6px;
+    }
+    .api-section .endpoint {
+      display: inline-block;
+      font-family: 'Fira Code', 'Cascadia Code', monospace;
+      background: #F5F5F5;
+      color: var(--red);
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .api-url-box {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #F8F8F8;
+      border: 2px dashed #ddd;
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+    }
+    .api-url-box code {
+      font-family: 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 1rem;
+      color: var(--dark-red);
+      flex: 1;
+      word-break: break-all;
+    }
+    .api-url-box .copy-btn {
+      background: var(--red);
+      color: var(--white);
+      border: none;
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background .2s;
+    }
+    .api-url-box .copy-btn:hover { background: var(--dark-red); }
+    .curl-block {
+      background: #1A1A2E;
+      color: #A8D8A8;
+      border-radius: 10px;
+      padding: 20px;
+      font-family: 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 0.84rem;
+      line-height: 1.8;
+      overflow-x: auto;
+      position: relative;
+    }
+    .curl-block .cmd { color: #FFD700; }
+    .curl-block .opt { color: #87CEEB; }
+    .curl-block .str { color: #FF9175; }
+    .curl-block .json-key { color: #C792EA; }
+    .copy-code-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(255,255,255,.15);
+      border: none;
+      color: #fff;
+      padding: 4px 12px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .copy-code-btn:hover { background: rgba(255,255,255,.25); }
+
+    /* ── Footer ── */
+    .footer {
+      background: var(--black);
+      color: #888;
+      text-align: center;
+      padding: 40px 24px;
+      font-size: 0.85rem;
+      line-height: 1.8;
+    }
+    .footer .brand {
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--red);
+      margin-bottom: 8px;
+    }
+
+    /* ── 响应式 ── */
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .hero { padding: 40px 16px; }
+      .hero .bucket-emoji { font-size: 3.5rem; }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>KFC Crazy Thursday API</h1>
-    <p class="subtitle">无论你问什么，答案永远是疯狂星期四</p>
 
+<!-- 导航条 -->
+<nav class="navbar">
+  <div class="logo">
+    <span style="font-size:1.6rem;">🍗</span> KFC 疯狂星期四 API
+  </div>
+  <ul class="nav-links">
+    <li><a href="#features">特点</a></li>
+    <li><a href="#api">API</a></li>
+    <li><a href="#quickstart">快速开始</a></li>
+    <li><a href="https://github.com/" target="_blank">GitHub</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-content">
+    <span class="tagline">疯狂星期四 · V我50</span>
+    <span class="bucket-emoji">🍗</span>
+    <h1>疯狂的<span class="gold">星期四</span><br>疯狂的<span class="gold">API</span></h1>
+    <p class="sub">兼容 OpenAI Chat Completions 接口 · 无需 API Key · 答案永远是疯狂星期四</p>
+    <a href="#api" class="hero-btn">立即接入 →</a>
+  </div>
+</section>
+
+<!-- 倒计时条 -->
+<div class="countdown-bar" id="countdown-bar">
+  ⏰ 距离下一个疯狂星期四还有 <span class="highlight" id="cd-days">?</span> 天 <span class="highlight" id="cd-hours">?</span> 小时 <span class="highlight" id="cd-mins">?</span> 分钟 <span class="highlight" id="cd-secs">?</span> 秒
+</div>
+
+<!-- 主要内容 -->
+<main class="main">
+
+  <!-- 特点 -->
+  <div class="section-title" id="features">
+    <h2>为什么选疯狂星期四 API</h2>
+    <div class="line"></div>
+  </div>
+
+  <div class="cards">
     <div class="card">
-      <h2>API Base URL</h2>
-      <p>将你的 OpenAI 客户端 API 地址设置为：</p>
-      <pre><code id="api-url"></code></pre>
-      <button class="copy-btn" onclick="copyUrl()">复制地址</button>
+      <div class="icon">⚡</div>
+      <h3>流式输出</h3>
+      <p>支持 SSE 流式响应，逐字输出带真实打字节奏，体验如同与真人对话</p>
     </div>
-
     <div class="card">
-      <h2>支持的模型</h2>
-      <ul class="model-list">
-        <li><code>kfc-crazy-thursday</code> <span class="tag">默认</span></li>
-        <li><code>kfc-original-recipe</code></li>
-        <li><code>kfc-spicy-wings</code></li>
-        <li><code>kfc-bucket-meal</code></li>
-      </ul>
+      <div class="icon">🧠</div>
+      <h3>思考模式</h3>
+      <p>传入 thinking 参数开启深度思考，模拟 AI 推理过程，支持深浅两级思考深度</p>
     </div>
-
     <div class="card">
-      <h2>使用示例</h2>
-      <pre><code>curl -X POST $(echo $API_URL)/v1/chat/completions \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "kfc-crazy-thursday",
-    "messages": [{"role": "user", "content": "你好"}],
-    "stream": true
-  }'</code></pre>
+      <div class="icon">🔑</div>
+      <h3>无需密钥</h3>
+      <p>完全兼容 OpenAI SDK，任意 API Key 均可调用，零配置接入</p>
     </div>
-
     <div class="card">
-      <h2>特点</h2>
-      <p>
-        1. 支持流式 (SSE) 和非流式响应<br>
-        2. 兼容 OpenAI Chat Completions API<br>
-        3. 无需 API Key<br>
-        4. 随机 KFC 疯狂星期四文案
-      </p>
+      <div class="icon">📝</div>
+      <h3>文案丰富</h3>
+      <p>联网拉取 400+ 条真实疯狂星期四文案，每次请求都是新鲜段子</p>
+    </div>
+    <div class="card">
+      <div class="icon">🌍</div>
+      <h3>跨平台部署</h3>
+      <p>支持 Node.js 本地运行 &amp; Cloudflare Pages 边缘部署，全球低延迟</p>
+    </div>
+    <div class="card">
+      <div class="icon">🎁</div>
+      <h3>完全免费</h3>
+      <p>开源项目，无需付费，不计 token，V我50 就是最好的赞助</p>
     </div>
   </div>
-  <script>
-    const url = window.location.origin + '/v1';
-    document.getElementById('api-url').textContent = url;
-    function copyUrl() {
-      navigator.clipboard.writeText(url);
-      document.querySelector('.copy-btn').textContent = '已复制!';
-      setTimeout(() => document.querySelector('.copy-btn').textContent = '复制地址', 2000);
+
+  <!-- API 接入 -->
+  <div class="section-title" id="api">
+    <h2>接入 API</h2>
+    <div class="line"></div>
+  </div>
+
+  <div class="api-section">
+    <h3>API 地址</h3>
+    <div class="api-url-box">
+      <code id="api-url"></code>
+      <button class="copy-btn" onclick="copyUrl()">📋 复制</button>
+    </div>
+
+    <h3>1. 获取模型列表</h3>
+    <div class="endpoint">GET /v1/models</div>
+    <div class="curl-block" style="position:relative;">
+      <button class="copy-code-btn" onclick="copyCode(this)">复制</button>
+      <span class="cmd">curl</span> <span id="models-curl-url"></span>/v1/models
+    </div>
+
+    <h3 style="margin-top:20px;">2. 非流式对话</h3>
+    <div class="endpoint">POST /v1/chat/completions</div>
+    <div class="curl-block" style="position:relative;">
+      <button class="copy-code-btn" onclick="copyCode(this)">复制</button>
+      <span class="cmd">curl -X POST</span> <span id="chat-curl-url"></span>/v1/chat/completions \<br>
+      &nbsp;&nbsp;<span class="opt">-H</span> <span class="str">"Content-Type: application/json"</span> \<br>
+      &nbsp;&nbsp;<span class="opt">-d</span> <span class="str">'{<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="json-key">"model"</span>: <span class="str">"kfc-crazy-thursday"</span>,<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="json-key">"messages"</span>: [{<span class="json-key">"role"</span>: <span class="str">"user"</span>, <span class="json-key">"content"</span>: <span class="str">"你好"</span>}]<br>
+      &nbsp;&nbsp;}'</span>
+    </div>
+
+    <h3 style="margin-top:20px;">3. 流式对话</h3>
+    <div class="endpoint">POST /v1/chat/completions（stream）</div>
+    <div class="curl-block" style="position:relative;">
+      <button class="copy-code-btn" onclick="copyCode(this)">复制</button>
+      <span class="cmd">curl -X POST</span> <span id="stream-curl-url"></span>/v1/chat/completions \<br>
+      &nbsp;&nbsp;<span class="opt">-H</span> <span class="str">"Content-Type: application/json"</span> \<br>
+      &nbsp;&nbsp;<span class="opt">-d</span> <span class="str">'{<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="json-key">"model"</span>: <span class="str">"kfc-crazy-thursday"</span>,<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="json-key">"messages"</span>: [{<span class="json-key">"role"</span>: <span class="str">"user"</span>, <span class="json-key">"content"</span>: <span class="str">"你好"</span>}],<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="json-key">"stream"</span>: <span class="str">true</span><br>
+      &nbsp;&nbsp;}'</span>
+    </div>
+
+    <h3 style="margin-top:20px;">4. 思考模式</h3>
+    <div class="endpoint">POST /v1/chat/completions（thinking）</div>
+    <div class="curl-block" style="position:relative;">
+      <button class="copy-code-btn" onclick="copyCode(this)">复制</button>
+      <span class="cmd">curl -X POST</span> <span id="thinking-curl-url"></span>/v1/chat/completions \<br>
+      &nbsp;&nbsp;<span class="opt">-H</span> <span class="str">"Content-Type: application/json"</span> \<br>
+      &nbsp;&nbsp;<span class="opt">-d</span> <span class="str">'{<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="json-key">"model"</span>: <span class="str">"kfc-crazy-thursday"</span>,<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="json-key">"messages"</span>: [{<span class="json-key">"role"</span>: <span class="str">"user"</span>, <span class="json-key">"content"</span>: <span class="str">"你好"</span>}],<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;<span class="json-key">"thinking"</span>: {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="json-key">"type"</span>: <span class="str">"enabled"</span>,<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="json-key">"budget_tokens"</span>: <span class="str">2000</span><br>
+      &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+      &nbsp;&nbsp;}'</span>
+    </div>
+
+    <p style="margin-top:20px;color:#888;font-size:0.9rem;">💡 <strong>budget_tokens</strong> ≤1000 为浅层思考，&gt;1000 为深度思考（含分析过程）</p>
+  </div>
+
+  <!-- Python SDK -->
+  <div class="api-section">
+    <h3>Python SDK 接入</h3>
+    <div class="curl-block" style="position:relative;">
+      <button class="copy-code-btn" onclick="copyCode(this)">复制</button>
+      <span class="opt">from</span> openai <span class="opt">import</span> OpenAI<br><br>
+      client = OpenAI(<br>
+      &nbsp;&nbsp;base_url=<span class="str">"<span class="sdk-base-url"></span>/v1"</span>,<br>
+      &nbsp;&nbsp;api_key=<span class="str">"any"</span>,<br>
+      )<br><br>
+      resp = client.chat.completions.create(<br>
+      &nbsp;&nbsp;model=<span class="str">"kfc-crazy-thursday"</span>,<br>
+      &nbsp;&nbsp;messages=[{<span class="json-key">"role"</span>: <span class="str">"user"</span>, <span class="json-key">"content"</span>: <span class="str">"你好"</span>}],<br>
+      )<br>
+      <span class="cmd">print</span>(resp.choices[<span class="str">0</span>].message.content)
+    </div>
+  </div>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="brand">KFC 疯狂星期四 API</div>
+  <p>本项目为恶搞项目，与肯德基无关。文案来自开源社区。</p>
+  <p>开源协议 MIT · V我50</p>
+</footer>
+
+<script>
+  const origin = window.location.origin;
+
+  // 设置 API 地址
+  document.getElementById('api-url').textContent = origin + '/v1';
+  document.querySelectorAll('.sdk-base-url').forEach(el => el.textContent = origin);
+
+  // 设置 curl 示例中的 URL
+  ['models-curl-url','chat-curl-url','stream-curl-url','thinking-curl-url'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = origin;
+  });
+
+  function copyUrl() {
+    navigator.clipboard.writeText(origin + '/v1');
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = '✅ 已复制';
+    setTimeout(() => btn.textContent = '📋 复制', 2000);
+  }
+
+  function copyCode(btn) {
+    const block = btn.parentElement;
+    const text = block.innerText.replace('复制','').trim();
+    navigator.clipboard.writeText(text);
+    btn.textContent = '✅ 已复制';
+    setTimeout(() => btn.textContent = '复制', 2000);
+  }
+
+  // ⏰ 疯狂星期四倒计时
+  function updateCountdown() {
+    const now = new Date();
+    // 找到下一个星期四（星期四是 4，JavaScript getDay: 0=周日）
+    const dayOfWeek = now.getDay();
+    let daysToThu = (4 - dayOfWeek + 7) % 7;
+    if (daysToThu === 0) {
+      // 检查是否已过今天的某个时间点（比如中午12点作为疯狂星期四开始）
+      if (now.getHours() >= 0) {
+        daysToThu = 0; // 已经是星期四了！
+      } else {
+        daysToThu = 7;
+      }
     }
-  </script>
+    const nextThu = new Date(now);
+    nextThu.setDate(now.getDate() + daysToThu);
+    nextThu.setHours(0, 0, 0, 0);
+
+    const diff = nextThu - now;
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const mins = Math.floor((diff / (1000 * 60)) % 60);
+    const secs = Math.floor((diff / 1000) % 60);
+
+    document.getElementById('cd-days').textContent = days;
+    document.getElementById('cd-hours').textContent = hours;
+    document.getElementById('cd-mins').textContent = mins;
+    document.getElementById('cd-secs').textContent = secs;
+
+    // 如果已经是星期四，改变文字
+    if (daysToThu === 0) {
+      document.getElementById('countdown-bar').innerHTML =
+        '🎉 <strong>今天就是疯狂星期四！</strong> 🎉 快去 KFC 或者 <strong>V我50</strong>！🍗';
+    }
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+</script>
+
 </body>
 </html>

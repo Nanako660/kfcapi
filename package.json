@@ -2,5 +2,10 @@
   "name": "kfc-crazy-thursday-api",
   "version": "1.0.0",
   "description": "KFC Crazy Thursday - Spoof LLM API",
-  "private": true
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "node server.js",
+    "dev:wrangler": "npx wrangler pages dev public --port 8788"
+  }
 }

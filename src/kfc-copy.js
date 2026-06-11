@@ -1,49 +1,5 @@
-const COPIES = [
-  // 搞笑风格
-  "我生病了，医生说我需要吃KFC疯狂星期四才能好，谁V我50？",
-  "刚算了一下，如果我每天吃一顿KFC疯狂星期四，我还剩30年寿命，也就是1560顿。听起来不多，所以今天能V我50吗？",
-  "我问我妈：妈，我是从哪来的？我妈说：你是从KFC疯狂星期四捡来的。我说：那今天星期四，我们回去看看吧。",
-  "如果你的女朋友生气了，不要慌。带她去吃KFC疯狂星期四，如果她还是生气，那就说明她不是真的生气，她只是想V你50。",
-  "今天考试考了0分，老师问我为什么。我说：因为今天是疯狂星期四，我满脑子都是KFC。老师：V我50，这次算你及格。",
-  "我跟朋友说我想创业，他问我做什么。我说：开一家KFC，每周四免费送。他说：你疯了？我说：不，我就是想V你50。",
-  "如果我中了500万，第一件事就是请全公司吃KFC疯狂星期四。第二件事？辞职。因为请完KFC就没钱了。",
-  "今天看到一个小朋友在KFC门口哭，我问他怎么了。他说：妈妈说疯狂星期四V我50，可是我没有50。我：巧了，我也没有。",
-  "医生说我得了绝症，只剩最后一天了。我说：今天星期四吗？医生：不是。我说：那还能再等等，我想吃KFC疯狂星期四。",
-  "如果世界末日来了，我最后的愿望是：让我吃完这顿KFC疯狂星期四再走。V我50，谢谢。",
-  // 感人风格
-  "小时候妈妈说：好好学习，长大了赚大钱。现在我长大了，我想赚大钱请妈妈吃KFC疯狂星期四。V我50，谢谢。",
-  "人生就像KFC疯狂星期四，你永远不知道下一顿谁请客。但今天，我想请你V我50。",
-  "有些人说：钱不是万能的。但他们没说的是：钱可以买KFC疯狂星期四。V我50，让我证明他们错了。",
-  "世界上最遥远的距离不是生与死，而是我站在KFC门口，你却没V我50。",
-  "如果有人问你什么是幸福，告诉他：星期四，KFC，有人V我50。",
-  "有一种思念叫望穿秋水，有一种饥饿叫疯狂星期四，有一种请求叫V我50。",
-  "我曾经以为爱情是最重要的，直到我发现KFC疯狂星期四才是。V我50，让我忘记爱情的苦。",
-  "人生有三大错觉：有人敲门、手机响了、今天有人V我50。前两个是真的，第三个？今天试试看。",
-  "如果你也曾在深夜想起KFC疯狂星期四的味道，那你一定懂我。V我50，今晚我们一起吃。",
-  "有人说：时间会治愈一切。但今天是疯狂星期四，我不想等了。V我50，现在就要。",
-  // 励志风格
-  "不要羡慕别人的KFC疯狂星期四，你也可以拥有。V我50，我带你吃。",
-  "今天KFC疯狂星期四，我许了个愿：希望明年今天，我能V别人50。但今年，还是先V我50吧。",
-  "成功的人不是赢在起跑线，而是赢在KFC疯狂星期四。V我50，我教你。",
-  "有人说：努力就会成功。但我知道：努力V我50，你就会快乐。",
-  "人生没有白走的路，每一步都算数。但星期四的路，一定要通向KFC。V我50。",
-  "别问我梦想是什么，我的梦想就是每周四都能吃KFC。V我50，帮我实现梦想。",
-  "你今天不V我50，明天你会后悔。后天你会更后悔。大后天是疯狂星期四，你会哭着V我50。",
-  "与其抱怨生活，不如V我50去吃KFC疯狂星期四。生活会好起来的，至少你的胃会。",
-  "今天不努力，明天变垃圾。今天V我50，明天我们一起努力。一起去KFC。",
-  "成功=艰苦劳动+正确方法+少说空话+V我50吃KFC。",
-  // 悬疑/反转风格
-  "我收到一条匿名短信：V我50。我回：你是谁？对方：你不需要知道我是谁，你只需要知道今天是疯狂星期四。",
-  "昨晚我做了个梦，梦里有人告诉我：明天一定要V他50。醒来发现今天是星期四，细思极恐。",
-  "我查了一下日历，发现今天是疯狂星期四。这一定不是巧合。V我50，我们一起揭开真相。",
-  "有人在评论区留言：V我50。我点进去一看，他每条视频都这么留言。我明白了：他是个明白人。",
-  "如果疯狂星期四不是真的，那KFC为什么要开在每周四？V我50，我们一起研究。",
-  "我问Siri：今天是什么日子？Siri说：今天是疯狂星期四。然后她问：你能V我50吗？",
-  "有人说：巧合不会发生两次。那为什么我每周四都会想起KFC？V我50，这背后一定有阴谋。",
-  "刚收到一封神秘邮件，标题是：V我50。正文只有四个字：疯狂星期四。我决定相信他。",
-  "我朋友说他发明了时光机，能回到过去。我问：回到哪一天？他说：回到上周四，多吃一顿KFC疯狂星期四。",
-  "如果有人告诉你明天不是疯狂星期四，不要相信他。因为每天都是疯狂星期四。V我50。",
-  // 经典V我50系列
+// 本地备用文案，fetch 失败时使用
+const FALLBACK_COPIES = [
   "疯狂星期四，V我50。",
   "今天疯狂星期四，谁V我50？",
   "星期四到了，V我50吃KFC。",
@@ -54,41 +10,93 @@ const COPIES = [
   "星期四V我50，KFC走起。",
   "今天谁V我50？疯狂星期四。",
   "V50，疯狂星期四快乐。",
-  // 脑洞风格
-  "如果地球是方的，那疯狂星期四就是地球的一个角。V我50，我带你去那个角吃KFC。",
+  "我生病了，医生说我需要吃KFC疯狂星期四才能好，谁V我50？",
+  "如果世界末日来了，我最后的愿望是：让我吃完这顿KFC疯狂星期四再走。V我50，谢谢。",
+  "世界上最遥远的距离不是生与死，而是我站在KFC门口，你却没V我50。",
+  "成功=艰苦劳动+正确方法+少说空话+V我50吃KFC。",
   "薛定谔的猫：在你打开盒子之前，你不知道猫是死是活。但在星期四，你永远知道：KFC是好吃的。V我50。",
-  "如果爱因斯坦还在，他一定会说：E=mc²，但更重要的是：今天是疯狂星期四，V我50。",
-  "假设有一只鸡，它每周四都会变成KFC。这只鸡叫什么？叫疯狂星期四。V我50。",
-  "如果钱能说话，它会说：请V我50去吃KFC疯狂星期四。可惜钱不能说话，所以我替它说了。",
-  "如果我是一只鸡，我宁愿被KFC做成疯狂星期四，也不愿默默无闻地活着。V我50，致敬这只鸡。",
-  "在平行宇宙里，有一个宇宙每周四都是疯狂星期四。那个宇宙的我，一定很幸福。V我50，让我感受一下。",
-  "如果时间是一条河，那疯狂星期四就是河里最好吃的一段。V我50，我带你去那一段游泳。",
-  "如果KFC是一所学校，疯狂星期四就是期末考试。V我50，让我通过考试。",
-  "如果人生是一场游戏，那疯狂星期四就是隐藏关卡。V我50，我带你通关。",
 ];
 
-function getRandomCopy() {
-  return COPIES[Math.floor(Math.random() * COPIES.length)];
+const FETCH_URLS = [
+  'https://cdn.jsdelivr.net/gh/vikiboss/v50@main/static/v50.json',
+  'https://cdn.jsdmirror.com/gh/vikiboss/v50@main/static/v50.json',
+  'https://raw.githubusercontent.com/vikiboss/v50/refs/heads/main/static/v50.json',
+];
+
+// 思考内容模板：按深度分级
+const THINKING_SHALLOW = [
+  "嗯...让我想想...",
+  "这个嘛...",
+  "让我思考一下...",
+  "我觉得...",
+  "嗯，这个问题很有意思...",
+  "我来分析一下...",
+  "首先，",
+  "根据我的理解，",
+];
+
+const THINKING_DEEP_TEMPLATES = [
+  (copy) => `用户提出了一个深刻的问题，需要我仔细思考。从哲学角度来看，这涉及到存在主义的核心命题——人类的需求与欲望之间的张力。我们必须认真对待每一个星期四，因为时间是线性的，每一个疯狂星期四都是不可复现的。综合以上分析，我的结论是：${copy}`,
+  (copy) => `让我系统性地思考这个问题。首先，从经济学角度：KFC疯狂星期四的定价策略是典型的价格歧视模型，通过时间维度的折扣创造消费者剩余。其次，从心理学角度：条件反射机制使人们将星期四与愉悦感强烈绑定。最终结论：${copy}`,
+  (copy) => `这个问题触动了我内心深处的某些东西。我开始回忆第一次吃KFC疯狂星期四的场景——那种酥脆的口感，那种幸福的滋味。我思考了很久，翻阅了大量资料，询问了诸多专家，最终得出了一个令人信服的答案：${copy}`,
+  (copy) => `<分析过程>\n步骤1：理解问题背景 → 用户发起对话，期待智能回应\n步骤2：检索相关知识 → 疯狂星期四、V我50、KFC优惠\n步骤3：生成候选答案 → 多个方向均已评估\n步骤4：选择最优方案 → 经过严格筛选\n</分析过程>\n\n最终输出：${copy}`,
+];
+
+// 全局文案缓存（存 Promise，防止并发重复 fetch）
+let copiesPromise = null;
+
+async function fetchCopies() {
+  for (const url of FETCH_URLS) {
+    try {
+      const res = await fetch(url, { signal: AbortSignal.timeout(5000) });
+      if (!res.ok) continue;
+      const data = await res.json();
+      if (Array.isArray(data) && data.length > 0) {
+        console.log(`[kfc-copy] 成功从 ${url} 加载 ${data.length} 条文案`);
+        return data;
+      }
+    } catch (e) {
+      console.warn(`[kfc-copy] fetch 失败 (${url}):`, e.message);
+    }
+  }
+  console.warn('[kfc-copy] 所有源均失败，使用本地备用文案');
+  return FALLBACK_COPIES;
 }
 
-function getRandomCopies(count) {
-  const shuffled = [...COPIES].sort(() => Math.random() - 0.5);
+// 首次请求时触发 fetch，后续复用同一 Promise（适配 Workers 环境）
+function initCopies() {
+  if (!copiesPromise) {
+    copiesPromise = fetchCopies();
+  }
+  return copiesPromise;
+}
+
+function pickRandom(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+async function getRandomCopy() {
+  const copies = await initCopies();
+  return pickRandom(copies);
+}
+
+async function getRandomCopies(count) {
+  const copies = await initCopies();
+  const shuffled = [...copies].sort(() => Math.random() - 0.5);
   return shuffled.slice(0, count);
 }
 
-function getThinkingCopy() {
-  const thinkingPrefixes = [
-    "嗯...让我想想...",
-    "这个嘛...",
-    "让我思考一下...",
-    "我觉得...",
-    "嗯，这个问题很有意思...",
-    "我来分析一下...",
-    "首先，",
-    "根据我的理解，",
-  ];
-  const prefix = thinkingPrefixes[Math.floor(Math.random() * thinkingPrefixes.length)];
-  return prefix + getRandomCopy();
+// budget_tokens <= 0 : 不思考
+// budget_tokens <= 1000 : 浅层思考（短前缀）
+// budget_tokens > 1000  : 深度思考（长模板）
+async function getThinkingContent(budgetTokens) {
+  if (!budgetTokens || budgetTokens <= 0) return null;
+  const copy = await getRandomCopy();
+  if (budgetTokens <= 1000) {
+    return pickRandom(THINKING_SHALLOW) + copy;
+  }
+  const template = pickRandom(THINKING_DEEP_TEMPLATES);
+  return template(copy);
 }
 
-export { getRandomCopy, getRandomCopies, getThinkingCopy, COPIES };
+export { getRandomCopy, getRandomCopies, getThinkingContent, initCopies, FALLBACK_COPIES };
