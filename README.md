@@ -107,8 +107,12 @@ npx wrangler pages deploy public --branch=master
 
 1. 推送项目到 GitHub
 2. Cloudflare Dashboard → Workers & Pages → 创建 → Pages → 连接 Git
-3. 构建输出目录设为 `public`（无需构建命令）
-4. 每次 push 自动部署
+3. 构建设置：
+   - **构建命令**：留空（不要填写）
+   - **构建输出目录**：`public`
+4. 保存后自动触发首次部署，之后每次 push 自动部署
+
+> **不要**在 Dashboard 中设置自定义 Deploy Command。Pages 会自动读取 `wrangler.toml` 中的 `pages_build_output_dir`。
 
 ### CORS
 
