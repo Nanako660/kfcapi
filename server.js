@@ -10,8 +10,6 @@ import {
   createNonStreamingResponse,
 } from './src/sse.js';
 
-const MODELS = ['sanders-1-flash', 'sanders-1-pro'];
-
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
@@ -37,7 +35,10 @@ const server = http.createServer(async (req, res) => {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({
       object: 'list',
-      data: MODELS.map(id => ({ id, object: 'model', created: 1686935002, owned_by: 'sanders' })),
+      data: [
+        { id: 'sanders-1-flash', object: 'model', created: 1686935002, owned_by: 'sanders', type: 'chat', max_input_tokens: 131072, max_output_tokens: 16384, supports_reasoning: false, capabilities: ['chat', 'function_calling'] },
+        { id: 'sanders-1-pro', object: 'model', created: 1686935002, owned_by: 'sanders', type: 'chat', max_input_tokens: 1048576, max_output_tokens: 16384, supports_reasoning: true, reasoning_budget_max: 4000, capabilities: ['chat', 'reasoning', 'function_calling'] },
+      ],
     }));
     return;
   }
