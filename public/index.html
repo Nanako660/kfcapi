@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>疯狂星期四 · KFC Crazy Thursday API</title>
+  <title>Sanders Intelligence Labs — Sanders-1 系列大语言模型</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;600;700;900&display=swap');
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -16,536 +16,599 @@
       --cream: #FFF8E7;
       --white: #FFFFFF;
       --black: #1A1A1A;
+      --gray-50: #F8F8F8;
+      --gray-100: #F0F0F0;
+      --gray-200: #E5E5E5;
+      --gray-300: #D4D4D4;
+      --gray-400: #A3A3A3;
+      --gray-500: #737373;
+      --gray-600: #525252;
+      --gray-700: #404040;
+      --gray-800: #262626;
     }
 
     body {
       font-family: 'Noto Sans SC', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--cream);
-      color: var(--black);
+      color: var(--gray-800);
+      background: var(--white);
       min-height: 100vh;
+      line-height: 1.6;
     }
 
-    /* ── 顶部导航条 ── */
+    /* ── Navbar ── */
     .navbar {
       background: var(--white);
-      border-bottom: 3px solid var(--red);
-      padding: 0 24px;
-      height: 56px;
+      border-bottom: 1px solid var(--gray-200);
+      padding: 0 32px;
+      height: 60px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       position: sticky;
       top: 0;
       z-index: 100;
+      backdrop-filter: blur(8px);
     }
-    .navbar .logo {
-      font-size: 1.4rem;
-      font-weight: 900;
-      color: var(--red);
-      letter-spacing: -1px;
+    .navbar .brand {
       display: flex;
       align-items: center;
       gap: 8px;
-    }
-    .navbar .logo img { height: 32px; }
-    .nav-links {
-      display: flex;
-      gap: 24px;
-      list-style: none;
-    }
-    .nav-links a {
-      color: #666;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--gray-600);
       text-decoration: none;
+    }
+    .navbar .brand img { height: 36px; }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a {
+      color: var(--gray-500);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 600;
+      transition: color .15s;
+    }
+    .nav-links a:hover { color: var(--black); }
+    .nav-links .primary {
+      background: var(--black);
+      color: var(--white);
+      padding: 6px 16px;
+      border-radius: 8px;
+      font-size: 0.84rem;
+    }
+    .nav-links .primary:hover { background: var(--gray-700); color: var(--white); }
+
+    /* ── Thursday Banner ── */
+    .thu-banner {
+      background: linear-gradient(135deg, var(--red), var(--dark-red));
+      color: var(--white);
+      text-align: center;
+      padding: 10px 24px;
       font-size: 0.9rem;
       font-weight: 700;
-      transition: color .2s;
+      letter-spacing: 0.5px;
     }
-    .nav-links a:hover { color: var(--red); }
+    .thu-banner .gold { color: var(--gold); }
 
-    /* ── Hero 区域 ── */
+    /* ── Hero ── */
     .hero {
-      background: linear-gradient(135deg, var(--red) 0%, var(--dark-red) 40%, #8B0018 100%);
-      position: relative;
-      overflow: hidden;
-      padding: 60px 24px;
+      background: var(--gray-50);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 80px 32px;
       text-align: center;
     }
-    /* 条纹背景 */
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: repeating-linear-gradient(
-        -35deg,
-        transparent,
-        transparent 20px,
-        rgba(255,255,255,.04) 20px,
-        rgba(255,255,255,.04) 40px
-      );
-    }
-    .hero-content { position: relative; z-index: 1; }
-    .hero .tagline {
+    .hero .badge {
       display: inline-block;
-      background: var(--gold);
-      color: var(--dark-red);
-      font-weight: 900;
-      font-size: 0.8rem;
-      padding: 4px 16px;
+      background: var(--red);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 0.78rem;
+      padding: 4px 14px;
       border-radius: 100px;
-      letter-spacing: 2px;
-      margin-bottom: 20px;
+      letter-spacing: 1px;
+      margin-bottom: 24px;
     }
     .hero h1 {
-      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-size: clamp(2rem, 5vw, 3.2rem);
       font-weight: 900;
-      color: var(--white);
-      line-height: 1.2;
-      margin-bottom: 12px;
-      text-shadow: 0 2px 8px rgba(0,0,0,.3);
-    }
-    .hero h1 .gold { color: var(--gold); }
-    .hero .sub {
-      color: rgba(255,255,255,.85);
-      font-size: 1.15rem;
-      margin-bottom: 32px;
-    }
-    .hero .bucket-emoji {
-      font-size: 5rem;
-      display: block;
-      margin: 12px auto;
-      filter: drop-shadow(0 4px 12px rgba(0,0,0,.4));
-      animation: float 3s ease-in-out infinite;
-    }
-    @keyframes float {
-      0%,100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-
-    .hero-btn {
-      display: inline-block;
-      background: var(--gold);
-      color: var(--dark-red);
-      font-weight: 900;
-      font-size: 1.1rem;
-      padding: 14px 40px;
-      border-radius: 100px;
-      text-decoration: none;
-      box-shadow: 0 4px 20px rgba(0,0,0,.25);
-      transition: transform .2s, box-shadow .2s;
-    }
-    .hero-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,.35); }
-
-    /* ── 星期四倒计时条 ── */
-    .countdown-bar {
-      background: var(--black);
-      color: var(--gold);
-      text-align: center;
-      padding: 12px 24px;
-      font-weight: 900;
-      font-size: 1rem;
-      letter-spacing: 1px;
-    }
-    .countdown-bar .highlight {
-      color: var(--white);
-      background: var(--red);
-      padding: 2px 10px;
-      border-radius: 4px;
-      margin: 0 4px;
-    }
-
-    /* ── 主要内容 ── */
-    .main {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 40px 20px 60px;
-    }
-
-    .section-title {
-      text-align: center;
-      margin-bottom: 32px;
-    }
-    .section-title h2 {
-      font-size: 1.8rem;
-      font-weight: 900;
-      color: var(--red);
-    }
-    .section-title .line {
-      width: 60px;
-      height: 4px;
-      background: var(--gold);
-      margin: 12px auto;
-      border-radius: 2px;
-    }
-
-    /* ── 卡片布局 ── */
-    .cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-      margin-bottom: 48px;
-    }
-    .card {
-      background: var(--white);
-      border-radius: 16px;
-      padding: 28px;
-      box-shadow: 0 2px 16px rgba(0,0,0,.06);
-      border: 1px solid #eee;
-      transition: transform .2s, box-shadow .2s;
-    }
-    .card:hover { transform: translateY(-4px); box-shadow: 0 8px 28px rgba(0,0,0,.1); }
-    .card .icon {
-      font-size: 2rem;
-      margin-bottom: 12px;
-    }
-    .card h3 {
-      font-size: 1.15rem;
-      font-weight: 900;
-      color: var(--dark-red);
-      margin-bottom: 8px;
-    }
-    .card p, .card ul { color: #666; line-height: 1.7; font-size: 0.95rem; }
-    .card ul { padding-left: 18px; }
-    .card ul li { margin-bottom: 4px; }
-
-    /* ── API 代码区域 ── */
-    .api-section {
-      background: var(--white);
-      border-radius: 16px;
-      padding: 32px;
-      box-shadow: 0 2px 16px rgba(0,0,0,.06);
-      border: 1px solid #eee;
-      margin-bottom: 32px;
-    }
-    .api-section h3 {
-      font-size: 1.3rem;
-      font-weight: 900;
-      color: var(--dark-red);
-      margin-bottom: 6px;
-    }
-    .api-section .endpoint {
-      display: inline-block;
-      font-family: 'Fira Code', 'Cascadia Code', monospace;
-      background: #F5F5F5;
-      color: var(--red);
-      padding: 4px 12px;
-      border-radius: 6px;
-      font-size: 0.9rem;
-      font-weight: 700;
+      color: var(--black);
+      line-height: 1.25;
       margin-bottom: 16px;
     }
+    .hero h1 .accent { color: var(--red); }
+    .hero .desc {
+      color: var(--gray-500);
+      font-size: 1.08rem;
+      max-width: 580px;
+      margin: 0 auto 36px;
+    }
+    .hero .cta-group { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .hero .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 12px 32px;
+      border-radius: 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-decoration: none;
+      transition: all .2s;
+    }
+    .btn-primary { background: var(--black); color: var(--white); }
+    .btn-primary:hover { background: var(--gray-700); }
+    .btn-outline {
+      background: var(--white);
+      color: var(--gray-700);
+      border: 1.5px solid var(--gray-300);
+    }
+    .btn-outline:hover { border-color: var(--gray-500); }
+
+    /* ── Stats Bar ── */
+    .stats {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      padding: 28px 32px;
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-100);
+      flex-wrap: wrap;
+    }
+    .stat { text-align: center; }
+    .stat .num { font-size: 1.5rem; font-weight: 900; color: var(--black); }
+    .stat .label { font-size: 0.82rem; color: var(--gray-400); margin-top: 2px; }
+
+    /* ── Main Content ── */
+    .main { max-width: 1040px; margin: 0 auto; padding: 56px 24px; }
+
+    .section-header { text-align: center; margin-bottom: 40px; }
+    .section-header h2 { font-size: 1.6rem; font-weight: 900; }
+    .section-header p { color: var(--gray-400); font-size: 0.92rem; margin-top: 6px; }
+
+    /* ── Model Cards ── */
+    .model-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      margin-bottom: 64px;
+    }
+    .model-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 14px;
+      padding: 32px;
+      transition: box-shadow .2s, border-color .2s;
+    }
+    .model-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,.06); border-color: var(--gray-300); }
+    .model-card.featured { border-color: var(--red); border-width: 2px; position: relative; }
+    .model-card.featured::before {
+      content: '推荐';
+      position: absolute;
+      top: -1px; right: 24px;
+      background: var(--red);
+      color: var(--white);
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 0 0 8px 8px;
+    }
+    .model-card .model-name {
+      font-size: 1.3rem;
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+    .model-card .model-tagline {
+      color: var(--gray-400);
+      font-size: 0.88rem;
+      margin-bottom: 20px;
+    }
+    .model-card .specs { list-style: none; margin-bottom: 24px; }
+    .model-card .specs li {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--gray-100);
+      font-size: 0.88rem;
+      color: var(--gray-600);
+    }
+    .model-card .specs li:last-child { border-bottom: none; }
+    .model-card .specs li .val { font-weight: 700; color: var(--black); text-align: right; }
+    .model-card .price {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--black);
+      margin-bottom: 4px;
+    }
+    .model-card .price-unit { font-size: 0.78rem; color: var(--gray-400); }
+
+    /* ── Pricing Table ── */
+    .pricing-table-wrapper {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 14px;
+      overflow: auto;
+      margin-bottom: 64px;
+    }
+    .pricing-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    .pricing-table th, .pricing-table td {
+      padding: 14px 20px;
+      text-align: left;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .pricing-table th {
+      background: var(--gray-50);
+      font-weight: 700;
+      color: var(--gray-700);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .pricing-table th:first-child { border-radius: 14px 0 0 0; }
+    .pricing-table th:last-child { border-radius: 0 14px 0 0; }
+    .pricing-table .thu-col { background: var(--red); color: var(--white); }
+    .pricing-table .free { color: var(--red); font-weight: 700; }
+    .pricing-table tr:last-child td { border-bottom: none; }
+    .pricing-table .model-col { font-weight: 700; }
+    .pricing-table .note {
+      font-size: 0.78rem;
+      color: var(--gray-400);
+      padding: 16px 20px;
+    }
+
+    /* ── Features ── */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 64px;
+    }
+    .feature-card {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-100);
+      border-radius: 10px;
+      padding: 24px;
+    }
+    .feature-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 6px; }
+    .feature-card p { font-size: 0.84rem; color: var(--gray-500); line-height: 1.5; }
+
+    /* ── API Section ── */
+    .api-block {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: 14px;
+      padding: 32px;
+      margin-bottom: 20px;
+    }
+    .api-block h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 4px; }
+    .api-block .endpoint {
+      font-family: 'Fira Code', Menlo, monospace;
+      color: var(--gray-500);
+      font-size: 0.88rem;
+      margin-bottom: 16px;
+    }
+    .curl-box {
+      background: var(--black);
+      color: #A8D8A8;
+      border-radius: 10px;
+      padding: 20px;
+      font-family: 'Fira Code', Menlo, monospace;
+      font-size: 0.82rem;
+      line-height: 1.9;
+      overflow-x: auto;
+      position: relative;
+    }
+    .curl-box .c { color: #FFD700; }
+    .curl-box .o { color: #87CEEB; }
+    .curl-box .s { color: #FF9175; }
+    .curl-box .k { color: #C792EA; }
+    .copy-btn {
+      position: absolute;
+      top: 12px; right: 12px;
+      background: rgba(255,255,255,.12);
+      border: none;
+      color: var(--white);
+      padding: 4px 14px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .copy-btn:hover { background: rgba(255,255,255,.22); }
+
     .api-url-box {
       display: flex;
       align-items: center;
       gap: 12px;
-      background: #F8F8F8;
-      border: 2px dashed #ddd;
+      background: var(--white);
+      border: 2px dashed var(--gray-300);
       border-radius: 10px;
-      padding: 16px 20px;
-      margin-bottom: 16px;
+      padding: 14px 20px;
+      margin-bottom: 20px;
     }
     .api-url-box code {
-      font-family: 'Fira Code', 'Cascadia Code', monospace;
-      font-size: 1rem;
-      color: var(--dark-red);
+      font-family: 'Fira Code', Menlo, monospace;
+      font-size: 0.95rem;
+      color: var(--red);
       flex: 1;
       word-break: break-all;
+      font-weight: 700;
     }
-    .api-url-box .copy-btn {
+    .api-url-box .copy-api-btn {
       background: var(--red);
       color: var(--white);
       border: none;
-      padding: 8px 20px;
+      padding: 8px 18px;
       border-radius: 8px;
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       cursor: pointer;
       white-space: nowrap;
-      transition: background .2s;
     }
-    .api-url-box .copy-btn:hover { background: var(--dark-red); }
-    .curl-block {
-      background: #1A1A2E;
-      color: #A8D8A8;
-      border-radius: 10px;
-      padding: 20px;
-      font-family: 'Fira Code', 'Cascadia Code', monospace;
-      font-size: 0.84rem;
-      line-height: 1.8;
-      overflow-x: auto;
-      position: relative;
-    }
-    .curl-block .cmd { color: #FFD700; }
-    .curl-block .opt { color: #87CEEB; }
-    .curl-block .str { color: #FF9175; }
-    .curl-block .json-key { color: #C792EA; }
-    .copy-code-btn {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: rgba(255,255,255,.15);
-      border: none;
-      color: #fff;
-      padding: 4px 12px;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      cursor: pointer;
-      transition: background .2s;
-    }
-    .copy-code-btn:hover { background: rgba(255,255,255,.25); }
+    .api-url-box .copy-api-btn:hover { background: var(--dark-red); }
 
     /* ── Footer ── */
     .footer {
-      background: var(--black);
-      color: #888;
-      text-align: center;
-      padding: 40px 24px;
-      font-size: 0.85rem;
-      line-height: 1.8;
+      background: var(--gray-50);
+      border-top: 1px solid var(--gray-200);
+      padding: 48px 24px;
     }
-    .footer .brand {
-      font-size: 1.2rem;
-      font-weight: 900;
-      color: var(--red);
-      margin-bottom: 8px;
+    .footer-grid {
+      max-width: 1040px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 32px;
+    }
+    .footer-col h4 { font-size: 0.82rem; font-weight: 700; color: var(--gray-500); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .footer-col a { display: block; color: var(--gray-500); text-decoration: none; font-size: 0.88rem; margin-bottom: 6px; transition: color .15s; }
+    .footer-col a:hover { color: var(--black); }
+    .footer-bottom {
+      max-width: 1040px;
+      margin: 32px auto 0;
+      padding-top: 20px;
+      border-top: 1px solid var(--gray-200);
+      text-align: center;
+      color: var(--gray-400);
+      font-size: 0.82rem;
     }
 
-    /* ── 响应式 ── */
     @media (max-width: 640px) {
       .nav-links { display: none; }
-      .hero { padding: 40px 16px; }
-      .hero .bucket-emoji { font-size: 3.5rem; }
+      .hero { padding: 48px 20px; }
+      .stats { gap: 24px; }
     }
   </style>
 </head>
 <body>
 
-<!-- 导航条 -->
 <nav class="navbar">
-  <div class="logo">
-    <span style="font-size:1.6rem;">🍗</span> KFC 疯狂星期四 API
-  </div>
+  <a class="brand" href="/"><img src="data:image/png;base64,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" alt="KFC"> Sanders Intelligence</a>
   <ul class="nav-links">
-    <li><a href="#features">特点</a></li>
+    <li><a href="#models">模型</a></li>
+    <li><a href="#pricing">价格</a></li>
+    <li><a href="#features">特性</a></li>
     <li><a href="#api">API</a></li>
-    <li><a href="#quickstart">快速开始</a></li>
-    <li><a href="https://github.com/" target="_blank">GitHub</a></li>
+    <li><a href="https://github.com/Nanako660/kfcapi" target="_blank">GitHub</a></li>
+    <li><a class="primary" href="#api">API 开放平台 →</a></li>
   </ul>
 </nav>
 
-<!-- Hero -->
+<div class="thu-banner">
+  🍗 <span style="font-weight:900;">疯狂星期四</span> · Sanders-1-Pro 全天<span class="gold">免费</span>调用 · 无需申请自动生效 &nbsp;<span style="opacity:.7">(每周四 UTC+8 00:00–23:59)</span>
+</div>
+
 <section class="hero">
-  <div class="hero-content">
-    <span class="tagline">疯狂星期四 · V我50</span>
-    <span class="bucket-emoji">🍗</span>
-    <h1>疯狂的<span class="gold">星期四</span><br>疯狂的<span class="gold">API</span></h1>
-    <p class="sub">兼容 OpenAI Chat Completions 接口 · 无需 API Key · 答案永远是疯狂星期四</p>
-    <a href="#api" class="hero-btn">立即接入 →</a>
+  <div class="badge">Sanders-1 系列全新发布</div>
+  <h1>源自<span class="accent">肯塔基</span>的智能</h1>
+  <p class="desc">Sanders-1 系列大语言模型，以 11 种香料级精细配方调校，在推理深度、响应速度与性价比之间取得卓越平衡。</p>
+  <div class="cta-group">
+    <a href="#api" class="btn btn-primary">API 开放平台 →</a>
+    <a href="#models" class="btn btn-outline">查看模型 →</a>
   </div>
 </section>
 
-<!-- 倒计时条 -->
-<div class="countdown-bar" id="countdown-bar">
-  ⏰ 距离下一个疯狂星期四还有 <span class="highlight" id="cd-days">?</span> 天 <span class="highlight" id="cd-hours">?</span> 小时 <span class="highlight" id="cd-mins">?</span> 分钟 <span class="highlight" id="cd-secs">?</span> 秒
+<div class="stats">
+  <div class="stat"><div class="num">128K–1M</div><div class="label">上下文窗口</div></div>
+  <div class="stat"><div class="num">40–100</div><div class="label">输出速度 tps</div></div>
+  <div class="stat"><div class="num">¥0.50</div><div class="label">起 / 百万 tokens</div></div>
 </div>
 
-<!-- 主要内容 -->
 <main class="main">
 
-  <!-- 特点 -->
-  <div class="section-title" id="features">
-    <h2>为什么选疯狂星期四 API</h2>
-    <div class="line"></div>
+  <!-- ── 模型卡片 ── -->
+  <div class="section-header" id="models">
+    <h2>Sanders-1 模型家族</h2>
+    <p>两个模型，覆盖从极速响应到深度推理的全部场景</p>
   </div>
 
-  <div class="cards">
-    <div class="card">
-      <div class="icon">⚡</div>
-      <h3>流式输出</h3>
-      <p>支持 SSE 流式响应，逐字输出带真实打字节奏，体验如同与真人对话</p>
+  <div class="model-cards">
+    <div class="model-card">
+      <div class="model-name">Sanders-1-Flash</div>
+      <div class="model-tagline">极速轻量 · 最低延迟</div>
+      <ul class="specs">
+        <li><span>上下文长度</span><span class="val">128K</span></li>
+        <li><span>输出速度</span><span class="val">80–100 tps</span></li>
+        <li><span>思考模式</span><span class="val">—</span></li>
+        <li><span>并发限制</span><span class="val">500</span></li>
+      </ul>
+      <div class="price">¥0.50</div>
+      <div class="price-unit">/ 百万 tokens 输出</div>
     </div>
-    <div class="card">
-      <div class="icon">🧠</div>
-      <h3>思考模式</h3>
-      <p>传入 thinking 参数开启深度思考，模拟 AI 推理过程，支持深浅两级思考深度</p>
-    </div>
-    <div class="card">
-      <div class="icon">🔑</div>
-      <h3>无需密钥</h3>
-      <p>完全兼容 OpenAI SDK，任意 API Key 均可调用，零配置接入</p>
-    </div>
-    <div class="card">
-      <div class="icon">📝</div>
-      <h3>文案丰富</h3>
-      <p>联网拉取 400+ 条真实疯狂星期四文案，每次请求都是新鲜段子</p>
-    </div>
-    <div class="card">
-      <div class="icon">🌍</div>
-      <h3>跨平台部署</h3>
-      <p>支持 Node.js 本地运行 &amp; Cloudflare Pages 边缘部署，全球低延迟</p>
-    </div>
-    <div class="card">
-      <div class="icon">🎁</div>
-      <h3>完全免费</h3>
-      <p>开源项目，无需付费，不计 token，V我50 就是最好的赞助</p>
+
+    <div class="model-card featured">
+      <div class="model-name">Sanders-1-Pro</div>
+      <div class="model-tagline">全能旗舰 · 11 种香料配方</div>
+      <ul class="specs">
+        <li><span>上下文长度</span><span class="val">1M</span></li>
+        <li><span>输出速度</span><span class="val">40–80 tps</span></li>
+        <li><span>思考模式</span><span class="val">支持（≤4000 tokens）</span></li>
+        <li><span>并发限制</span><span class="val">100</span></li>
+        <li><span>星期四</span><span class="val" style="color:var(--red);">免费 🆓</span></li>
+      </ul>
+      <div class="price">¥1.00</div>
+      <div class="price-unit">/ 百万 tokens 输出</div>
     </div>
   </div>
 
-  <!-- API 接入 -->
-  <div class="section-title" id="api">
-    <h2>接入 API</h2>
-    <div class="line"></div>
+  <!-- ── 定价表 ── -->
+  <div class="section-header" id="pricing">
+    <h2>模型与价格</h2>
+    <p>按百万 tokens 计费。1 个 token 约等于 1–2 个中文字符。</p>
   </div>
 
-  <div class="api-section">
-    <h3>API 地址</h3>
+  <div class="pricing-table-wrapper">
+    <table class="pricing-table">
+      <thead>
+        <tr>
+          <th>定价项目</th>
+          <th>Sanders-1-Flash</th>
+          <th>Sanders-1-Pro</th>
+          <th class="thu-col">星期四 Pro</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>输入（缓存命中）</td>
+          <td>¥0.10 / M tokens</td>
+          <td>¥0.25 / M tokens</td>
+          <td class="free">免费</td>
+        </tr>
+        <tr>
+          <td>输入（缓存未命中）</td>
+          <td>¥0.50 / M tokens</td>
+          <td>¥1.00 / M tokens</td>
+          <td class="free">免费</td>
+        </tr>
+        <tr>
+          <td>输出</td>
+          <td>¥0.50 / M tokens</td>
+          <td>¥1.00 / M tokens</td>
+          <td class="free">免费</td>
+        </tr>
+        <tr>
+          <td>思考模式</td>
+          <td>不支持</td>
+          <td>≤4000 tokens</td>
+          <td class="free">≤4000 tokens</td>
+        </tr>
+        <tr>
+          <td>上下文长度</td>
+          <td>128K</td>
+          <td>1M</td>
+          <td>1M</td>
+        </tr>
+        <tr>
+          <td>并发限制</td>
+          <td>500</td>
+          <td>100</td>
+          <td>不限</td>
+        </tr>
+        <tr>
+          <td>上下文长度</td>
+          <td>128K</td>
+          <td>1M</td>
+          <td>1M</td>
+        </tr>
+        <tr>
+          <td>Tool Calls</td>
+          <td>✓</td>
+          <td>✓</td>
+          <td>✓</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note" style="line-height:1.8;padding:16px 24px;font-size:0.72rem;">
+      <span style="font-weight:700;">星期四免费政策</span>：仅适用于 Sanders-1-Pro，每周四 00:00–23:59（UTC+8）自动生效，无需申请。<br>
+      <span style="font-weight:700;">计费说明</span>：按百万 tokens 计费，1 token ≈ 1–2 个中文字符。充值余额与赠送余额同时存在时，优先消耗赠送额度。产品价格可能发生变动，以本页最新信息为准。
+    </div>
+  </div>
+
+  <!-- ── 特性 ── -->
+  <div class="section-header" id="features">
+    <h2>核心能力</h2>
+    <p>Sanders-1 系列支持完整的 Chat Completions API 特性</p>
+  </div>
+
+  <div class="features">
+    <div class="feature-card">
+      <h4>思考模式</h4>
+      <p>支持 reasoning_content 推理过程输出，通过 thinking.budget_tokens 控制深度</p>
+    </div>
+    <div class="feature-card">
+      <h4>流式输出 (SSE)</h4>
+      <p>Server-Sent Events 实时推流，模拟类人打字节奏</p>
+    </div>
+    <div class="feature-card">
+      <h4>1M 上下文</h4>
+      <p>Sanders-1-Pro 支持百万 token 超长上下文窗口</p>
+    </div>
+    <div class="feature-card">
+      <h4>多轮对话</h4>
+      <p>完整 Messages API 多轮交互支持</p>
+    </div>
+    <div class="feature-card">
+      <h4>OpenAI 兼容</h4>
+      <p>完全兼容 OpenAI SDK，一行代码切换后端</p>
+    </div>
+  </div>
+
+  <!-- ── API Base URL ── -->
+  <div class="section-header" id="api"></div>
+
+  <div class="api-block">
+    <h3>API Base URL</h3>
     <div class="api-url-box">
       <code id="api-url"></code>
-      <button class="copy-btn" onclick="copyUrl()">📋 复制</button>
-    </div>
-
-    <h3>1. 获取模型列表</h3>
-    <div class="endpoint">GET /v1/models</div>
-    <div class="curl-block" style="position:relative;">
-      <button class="copy-code-btn" onclick="copyCode(this)">复制</button>
-      <span class="cmd">curl</span> <span id="models-curl-url"></span>/v1/models
-    </div>
-
-    <h3 style="margin-top:20px;">2. 非流式对话</h3>
-    <div class="endpoint">POST /v1/chat/completions</div>
-    <div class="curl-block" style="position:relative;">
-      <button class="copy-code-btn" onclick="copyCode(this)">复制</button>
-      <span class="cmd">curl -X POST</span> <span id="chat-curl-url"></span>/v1/chat/completions \<br>
-      &nbsp;&nbsp;<span class="opt">-H</span> <span class="str">"Content-Type: application/json"</span> \<br>
-      &nbsp;&nbsp;<span class="opt">-d</span> <span class="str">'{<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="json-key">"model"</span>: <span class="str">"kfc-crazy-thursday"</span>,<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="json-key">"messages"</span>: [{<span class="json-key">"role"</span>: <span class="str">"user"</span>, <span class="json-key">"content"</span>: <span class="str">"你好"</span>}]<br>
-      &nbsp;&nbsp;}'</span>
-    </div>
-
-    <h3 style="margin-top:20px;">3. 流式对话</h3>
-    <div class="endpoint">POST /v1/chat/completions（stream）</div>
-    <div class="curl-block" style="position:relative;">
-      <button class="copy-code-btn" onclick="copyCode(this)">复制</button>
-      <span class="cmd">curl -X POST</span> <span id="stream-curl-url"></span>/v1/chat/completions \<br>
-      &nbsp;&nbsp;<span class="opt">-H</span> <span class="str">"Content-Type: application/json"</span> \<br>
-      &nbsp;&nbsp;<span class="opt">-d</span> <span class="str">'{<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="json-key">"model"</span>: <span class="str">"kfc-crazy-thursday"</span>,<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="json-key">"messages"</span>: [{<span class="json-key">"role"</span>: <span class="str">"user"</span>, <span class="json-key">"content"</span>: <span class="str">"你好"</span>}],<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="json-key">"stream"</span>: <span class="str">true</span><br>
-      &nbsp;&nbsp;}'</span>
-    </div>
-
-    <h3 style="margin-top:20px;">4. 思考模式</h3>
-    <div class="endpoint">POST /v1/chat/completions（thinking）</div>
-    <div class="curl-block" style="position:relative;">
-      <button class="copy-code-btn" onclick="copyCode(this)">复制</button>
-      <span class="cmd">curl -X POST</span> <span id="thinking-curl-url"></span>/v1/chat/completions \<br>
-      &nbsp;&nbsp;<span class="opt">-H</span> <span class="str">"Content-Type: application/json"</span> \<br>
-      &nbsp;&nbsp;<span class="opt">-d</span> <span class="str">'{<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="json-key">"model"</span>: <span class="str">"kfc-crazy-thursday"</span>,<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="json-key">"messages"</span>: [{<span class="json-key">"role"</span>: <span class="str">"user"</span>, <span class="json-key">"content"</span>: <span class="str">"你好"</span>}],<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;<span class="json-key">"thinking"</span>: {<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="json-key">"type"</span>: <span class="str">"enabled"</span>,<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="json-key">"budget_tokens"</span>: <span class="str">2000</span><br>
-      &nbsp;&nbsp;&nbsp;&nbsp;}<br>
-      &nbsp;&nbsp;}'</span>
-    </div>
-
-    <p style="margin-top:20px;color:#888;font-size:0.9rem;">💡 <strong>budget_tokens</strong> ≤1000 为浅层思考，&gt;1000 为深度思考（含分析过程）</p>
-  </div>
-
-  <!-- Python SDK -->
-  <div class="api-section">
-    <h3>Python SDK 接入</h3>
-    <div class="curl-block" style="position:relative;">
-      <button class="copy-code-btn" onclick="copyCode(this)">复制</button>
-      <span class="opt">from</span> openai <span class="opt">import</span> OpenAI<br><br>
-      client = OpenAI(<br>
-      &nbsp;&nbsp;base_url=<span class="str">"<span class="sdk-base-url"></span>/v1"</span>,<br>
-      &nbsp;&nbsp;api_key=<span class="str">"any"</span>,<br>
-      )<br><br>
-      resp = client.chat.completions.create(<br>
-      &nbsp;&nbsp;model=<span class="str">"kfc-crazy-thursday"</span>,<br>
-      &nbsp;&nbsp;messages=[{<span class="json-key">"role"</span>: <span class="str">"user"</span>, <span class="json-key">"content"</span>: <span class="str">"你好"</span>}],<br>
-      )<br>
-      <span class="cmd">print</span>(resp.choices[<span class="str">0</span>].message.content)
+      <button class="copy-api-btn" onclick="copyApiUrl()">复制</button>
     </div>
   </div>
 
 </main>
 
-<!-- Footer -->
 <footer class="footer">
-  <div class="brand">KFC 疯狂星期四 API</div>
-  <p>本项目为恶搞项目，与肯德基无关。文案来自开源社区。</p>
-  <p>开源协议 MIT · V我50</p>
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>关于</h4>
+      <a href="#">Sanders Intelligence Labs</a>
+      <a href="#">研究团队</a>
+      <a href="#">联系我们</a>
+    </div>
+    <div class="footer-col">
+      <h4>产品</h4>
+      <a href="#models">Sanders-1 系列</a>
+      <a href="#pricing">API 价格</a>
+      <a href="#">服务状态</a>
+    </div>
+    <div class="footer-col">
+      <h4>开发者</h4>
+      <a href="#api">API 文档</a>
+      <a href="#api">API 接入</a>
+      <a href="https://github.com/Nanako660/kfcapi" target="_blank">GitHub</a>
+    </div>
+    <div class="footer-col">
+      <h4>法律</h4>
+      <a href="#">隐私政策</a>
+      <a href="#">服务条款</a>
+      <a href="#">Cookies</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    © 2026 Sanders Intelligence Labs. All rights reserved.
+  </div>
 </footer>
 
 <script>
   const origin = window.location.origin;
-
-  // 设置 API 地址
   document.getElementById('api-url').textContent = origin + '/v1';
-  document.querySelectorAll('.sdk-base-url').forEach(el => el.textContent = origin);
 
-  // 设置 curl 示例中的 URL
-  ['models-curl-url','chat-curl-url','stream-curl-url','thinking-curl-url'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = origin;
-  });
-
-  function copyUrl() {
+  function copyApiUrl() {
     navigator.clipboard.writeText(origin + '/v1');
-    const btn = document.querySelector('.copy-btn');
-    btn.textContent = '✅ 已复制';
-    setTimeout(() => btn.textContent = '📋 复制', 2000);
+    const btn = document.querySelector('.copy-api-btn');
+    btn.textContent = '已复制';
+    setTimeout(() => btn.textContent = '复制', 1500);
   }
-
-  function copyCode(btn) {
-    const block = btn.parentElement;
-    const text = block.innerText.replace('复制','').trim();
-    navigator.clipboard.writeText(text);
-    btn.textContent = '✅ 已复制';
-    setTimeout(() => btn.textContent = '复制', 2000);
-  }
-
-  // ⏰ 疯狂星期四倒计时
-  function updateCountdown() {
-    const now = new Date();
-    // 找到下一个星期四（星期四是 4，JavaScript getDay: 0=周日）
-    const dayOfWeek = now.getDay();
-    let daysToThu = (4 - dayOfWeek + 7) % 7;
-    if (daysToThu === 0) {
-      // 检查是否已过今天的某个时间点（比如中午12点作为疯狂星期四开始）
-      if (now.getHours() >= 0) {
-        daysToThu = 0; // 已经是星期四了！
-      } else {
-        daysToThu = 7;
-      }
-    }
-    const nextThu = new Date(now);
-    nextThu.setDate(now.getDate() + daysToThu);
-    nextThu.setHours(0, 0, 0, 0);
-
-    const diff = nextThu - now;
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const mins = Math.floor((diff / (1000 * 60)) % 60);
-    const secs = Math.floor((diff / 1000) % 60);
-
-    document.getElementById('cd-days').textContent = days;
-    document.getElementById('cd-hours').textContent = hours;
-    document.getElementById('cd-mins').textContent = mins;
-    document.getElementById('cd-secs').textContent = secs;
-
-    // 如果已经是星期四，改变文字
-    if (daysToThu === 0) {
-      document.getElementById('countdown-bar').innerHTML =
-        '🎉 <strong>今天就是疯狂星期四！</strong> 🎉 快去 KFC 或者 <strong>V我50</strong>！🍗';
-    }
-  }
-  updateCountdown();
-  setInterval(updateCountdown, 1000);
 </script>
 
 </body>

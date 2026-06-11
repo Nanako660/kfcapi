@@ -9,7 +9,7 @@ import {
   createNonStreamingResponse,
 } from '../../../src/sse.js';
 
-const MODEL = 'kfc-crazy-thursday';
+const DEFAULT_MODEL = 'sanders-1-flash';
 
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -24,6 +24,7 @@ function getBudgetTokens(body) {
 }
 
 async function handleStreamingRequest(body) {
+  const model = body.model || DEFAULT_MODEL;
   const id = generateId();
   const content = await getRandomCopy();
   const budgetTokens = getBudgetTokens(body);
@@ -34,7 +35,7 @@ async function handleStreamingRequest(body) {
     async start(controller) {
       const enqueue = (data) => controller.enqueue(encoder.encode(data));
 
-      enqueue(formatSSEChunk(createStreamStart(id, MODEL)));
+      enqueue(formatSSEChunk(createStreamStart(id, model)));
 
       // 思考块（仅在 thinking.type=enabled 且 budget_tokens>0 时输出）
       if (budgetTokens > 0) {
@@ -43,7 +44,7 @@ async function handleStreamingRequest(body) {
           enqueue(formatSSEChunk({
             id,
             object: 'chat.completion.chunk',
-            model: MODEL,
+            model,
             choices: [{
               index: 0,
               delta: { reasoning_content: thinkingText },
@@ -60,15 +61,15 @@ async function handleStreamingRequest(body) {
       for (const frame of frames) {
         await delay(frame.delay);
         if (frame.text) {
-          enqueue(formatSSEChunk(createStreamChunk(id, frame.text, null, MODEL)));
+          enqueue(formatSSEChunk(createStreamChunk(id, frame.text, null, model)));
         }
       }
 
-      enqueue(formatSSEChunk(createStreamChunk(id, null, 'stop', MODEL)));
+      enqueue(formatSSEChunk(createStreamChunk(id, null, 'stop', model)));
 
       if (includeUsage) {
         const promptTokens = body.messages?.reduce((sum, m) => sum + (m.content?.length || 0), 0) || 10;
-        enqueue(formatSSEChunk(createUsageChunk(id, promptTokens, content.length, MODEL)));
+        enqueue(formatSSEChunk(createUsageChunk(id, promptTokens, content.length, model)));
       }
 
       enqueue('data: [DONE]\n\n');
@@ -87,11 +88,12 @@ async function handleStreamingRequest(body) {
 }
 
 async function handleNonStreamingRequest(body) {
+  const model = body.model || DEFAULT_MODEL;
   const id = generateId();
   const content = await getRandomCopy();
   const budgetTokens = getBudgetTokens(body);
 
-  const response = createNonStreamingResponse(id, content, MODEL);
+  const response = createNonStreamingResponse(id, content, model);
 
   if (budgetTokens > 0) {
     const thinkingText = await getThinkingContent(budgetTokens);

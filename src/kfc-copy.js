@@ -52,14 +52,14 @@ async function fetchCopies() {
       if (!res.ok) continue;
       const data = await res.json();
       if (Array.isArray(data) && data.length > 0) {
-        console.log(`[kfc-copy] 成功从 ${url} 加载 ${data.length} 条文案`);
+        console.log(`[sanders] 已从 ${url} 加载 ${data.length} 条知识源`);
         return data;
       }
     } catch (e) {
-      console.warn(`[kfc-copy] fetch 失败 (${url}):`, e.message);
+      console.warn(`[sanders] fetch 失败 (${url}):`, e.message);
     }
   }
-  console.warn('[kfc-copy] 所有源均失败，使用本地备用文案');
+  console.warn('[sanders] 所有源均失败，使用本地备用知识源');
   return FALLBACK_COPIES;
 }
 

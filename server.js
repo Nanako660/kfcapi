@@ -10,7 +10,7 @@ import {
   createNonStreamingResponse,
 } from './src/sse.js';
 
-const MODEL = 'kfc-crazy-thursday';
+const MODELS = ['sanders-1-flash', 'sanders-1-pro'];
 
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -37,9 +37,7 @@ const server = http.createServer(async (req, res) => {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({
       object: 'list',
-      data: [
-        { id: MODEL, object: 'model', created: 1686935002, owned_by: 'kfc' },
-      ],
+      data: MODELS.map(id => ({ id, object: 'model', created: 1686935002, owned_by: 'sanders' })),
     }));
     return;
   }
@@ -50,6 +48,7 @@ const server = http.createServer(async (req, res) => {
     req.on('end', async () => {
       try {
         const data = JSON.parse(body);
+        const model = data.model || MODELS[0];
         const id = generateId();
         const content = await getRandomCopy();
         const budgetTokens = getBudgetTokens(data);
@@ -62,7 +61,7 @@ const server = http.createServer(async (req, res) => {
             'Connection': 'keep-alive',
           });
 
-          res.write(formatSSEChunk(createStreamStart(id, MODEL)));
+          res.write(formatSSEChunk(createStreamStart(id, model)));
 
           // 思考块
           if (budgetTokens > 0) {
@@ -71,7 +70,7 @@ const server = http.createServer(async (req, res) => {
               res.write(formatSSEChunk({
                 id,
                 object: 'chat.completion.chunk',
-                model: MODEL,
+                model,
                 choices: [{
                   index: 0,
                   delta: { reasoning_content: thinkingText },
@@ -87,21 +86,21 @@ const server = http.createServer(async (req, res) => {
           for (const frame of frames) {
             await delay(frame.delay);
             if (frame.text) {
-              res.write(formatSSEChunk(createStreamChunk(id, frame.text, null, MODEL)));
+              res.write(formatSSEChunk(createStreamChunk(id, frame.text, null, model)));
             }
           }
 
-          res.write(formatSSEChunk(createStreamChunk(id, null, 'stop', MODEL)));
+          res.write(formatSSEChunk(createStreamChunk(id, null, 'stop', model)));
 
           if (includeUsage) {
             const promptTokens = data.messages?.reduce((sum, m) => sum + (m.content?.length || 0), 0) || 10;
-            res.write(formatSSEChunk(createUsageChunk(id, promptTokens, content.length, MODEL)));
+            res.write(formatSSEChunk(createUsageChunk(id, promptTokens, content.length, model)));
           }
 
           res.write('data: [DONE]\n\n');
           res.end();
         } else {
-          const response = createNonStreamingResponse(id, content, MODEL);
+          const response = createNonStreamingResponse(id, content, model);
 
           if (budgetTokens > 0) {
             const thinkingText = await getThinkingContent(budgetTokens);
@@ -129,9 +128,9 @@ const PORT = 3000;
 
 // 启动时预加载文案，加载完成后再监听端口
 initCopies().then((copies) => {
-  console.log(`[kfc] 文案库就绪，共 ${copies.length} 条`);
+  console.log(`[sanders] 文案库就绪，共 ${copies.length} 条`);
   server.listen(PORT, () => {
-    console.log(`KFC Crazy Thursday API running on http://localhost:${PORT}`);
+    console.log(`Sanders Intelligence Labs API running on http://localhost:${PORT}`);
     console.log('Endpoints:');
     console.log('  GET  /v1/models');
     console.log('  POST /v1/chat/completions');
@@ -139,6 +138,6 @@ initCopies().then((copies) => {
 }).catch(() => {
   // fetch 失败也能启动，使用 fallback
   server.listen(PORT, () => {
-    console.log(`KFC Crazy Thursday API running on http://localhost:${PORT} (fallback mode)`);
+    console.log(`Sanders Intelligence Labs API running on http://localhost:${PORT} (fallback mode)`);
   });
 });

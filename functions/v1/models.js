@@ -2,7 +2,8 @@ export async function onRequestGet(context) {
   return new Response(JSON.stringify({
     object: 'list',
     data: [
-      { id: 'kfc-crazy-thursday', object: 'model', created: 1686935002, owned_by: 'kfc' },
+      { id: 'sanders-1-flash', object: 'model', created: 1686935002, owned_by: 'sanders' },
+      { id: 'sanders-1-pro', object: 'model', created: 1686935002, owned_by: 'sanders' },
     ],
   }), {
     headers: {
