@@ -10,7 +10,7 @@ import {
   createNonStreamingResponse,
 } from './src/sse.js';
 
-const MODELS = ['sanders-1-flash', 'sanders-1-pro'];
+const MODELS = ['gpt-4o-mini', 'gpt-4o'];
 
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
@@ -37,7 +37,7 @@ const server = http.createServer(async (req, res) => {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({
       object: 'list',
-      data: MODELS.map(id => ({ id, object: 'model', created: 1686935002, owned_by: 'sanders' })),
+      data: MODELS.map(id => ({ id, object: 'model', created: 1727136000, owned_by: 'openai' })),
     }));
     return;
   }
