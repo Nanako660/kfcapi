@@ -8,7 +8,10 @@ export async function onRequestGet(context) {
       { id: 'kfc-bucket-meal', object: 'model', created: 1686935002, owned_by: 'kfc' },
     ],
   }), {
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*' 
+    },
   });
 }
 
@@ -17,7 +20,7 @@ export async function onRequestOptions() {
     status: 204,
     headers: {
       'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, OPTIONS',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     },
   });
