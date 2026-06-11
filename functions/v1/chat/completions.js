@@ -9,7 +9,7 @@ import {
   createNonStreamingResponse,
 } from '../../../src/sse.js';
 
-const DEFAULT_MODEL = 'gpt-4o-mini';
+const DEFAULT_MODEL = 'sanders-1-flash';
 
 function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));

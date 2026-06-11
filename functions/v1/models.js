@@ -2,8 +2,8 @@ export async function onRequestGet(context) {
   return new Response(JSON.stringify({
     object: 'list',
     data: [
-      { id: 'gpt-4o-mini', object: 'model', created: 1727136000, owned_by: 'openai' },
-      { id: 'gpt-4o', object: 'model', created: 1727136000, owned_by: 'openai' },
+      { id: 'sanders-1-flash', object: 'model', created: 1686935002, owned_by: 'sanders' },
+      { id: 'sanders-1-pro', object: 'model', created: 1686935002, owned_by: 'sanders' },
     ],
   }), {
     headers: {
