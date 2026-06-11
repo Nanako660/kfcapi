@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KFC Crazy Thursday API</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #1a1a2e; color: #eee; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+    .container { max-width: 700px; width: 100%; }
+    h1 { font-size: 2.5rem; text-align: center; margin-bottom: 10px; background: linear-gradient(135deg, #e4002b, #ffb81c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .subtitle { text-align: center; color: #888; margin-bottom: 40px; font-size: 1.1rem; }
+    .card { background: #16213e; border-radius: 12px; padding: 24px; margin-bottom: 20px; border: 1px solid #0f3460; }
+    .card h2 { color: #ffb81c; margin-bottom: 12px; font-size: 1.2rem; }
+    .card p { color: #aaa; line-height: 1.6; }
+    code { background: #0f3460; padding: 2px 8px; border-radius: 4px; font-family: 'Fira Code', monospace; font-size: 0.9rem; color: #e4002b; }
+    pre { background: #0f3460; padding: 16px; border-radius: 8px; overflow-x: auto; margin: 12px 0; font-size: 0.85rem; line-height: 1.5; }
+    pre code { background: none; padding: 0; color: #eee; }
+    .copy-btn { background: #e4002b; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-size: 0.9rem; margin-top: 8px; }
+    .copy-btn:hover { background: #c5001f; }
+    .model-list { list-style: none; }
+    .model-list li { padding: 8px 0; border-bottom: 1px solid #0f3460; color: #ccc; }
+    .model-list li:last-child { border-bottom: none; }
+    .tag { display: inline-block; background: #e4002b; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; margin-left: 8px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>KFC Crazy Thursday API</h1>
+    <p class="subtitle">无论你问什么，答案永远是疯狂星期四</p>
+
+    <div class="card">
+      <h2>API Base URL</h2>
+      <p>将你的 OpenAI 客户端 API 地址设置为：</p>
+      <pre><code id="api-url"></code></pre>
+      <button class="copy-btn" onclick="copyUrl()">复制地址</button>
+    </div>
+
+    <div class="card">
+      <h2>支持的模型</h2>
+      <ul class="model-list">
+        <li><code>kfc-crazy-thursday</code> <span class="tag">默认</span></li>
+        <li><code>kfc-original-recipe</code></li>
+        <li><code>kfc-spicy-wings</code></li>
+        <li><code>kfc-bucket-meal</code></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h2>使用示例</h2>
+      <pre><code>curl -X POST $(echo $API_URL)/v1/chat/completions \
+  -H "Content-Type: application/json" \
+  -d '{
+    "model": "kfc-crazy-thursday",
+    "messages": [{"role": "user", "content": "你好"}],
+    "stream": true
+  }'</code></pre>
+    </div>
+
+    <div class="card">
+      <h2>特点</h2>
+      <p>
+        1. 支持流式 (SSE) 和非流式响应<br>
+        2. 兼容 OpenAI Chat Completions API<br>
+        3. 无需 API Key<br>
+        4. 随机 KFC 疯狂星期四文案
+      </p>
+    </div>
+  </div>
+  <script>
+    const url = window.location.origin + '/v1';
+    document.getElementById('api-url').textContent = url;
+    function copyUrl() {
+      navigator.clipboard.writeText(url);
+      document.querySelector('.copy-btn').textContent = '已复制!';
+      setTimeout(() => document.querySelector('.copy-btn').textContent = '复制地址', 2000);
+    }
+  </script>
+</body>
+</html>
